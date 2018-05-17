@@ -6,8 +6,12 @@ JQL_FOR_TOP_ISSUE = os.environ['JIRA_JQL_FOR_TOP_ISSUE']
 
 def handler(event, context):
     """
-    1. Let top = [highest-ranked issue from epic](https://goo.gl/559GY4) in "To Do".
-    2. [Rank trigger issue](https://goo.gl/KSxCRN) higher than top.
+    1. Let top = highest-ranked issue from epic in "To Do".
+    2. Rank trigger issue higher than top.
+
+    Docs links:
+     - https://goo.gl/559GY4
+     - https://goo.gl/KSxCRN
     """
     event_body = json.loads(event['body'])
 
