@@ -39,11 +39,11 @@ functions:
           path: hello
           method: get
 
-  TODO_1101_on_todo_rank_issue_highest:
-    handler: TODO_1101_on_todo_rank_issue_highest.handler
+  on_todo_rank_issue_highest:
+    handler: on_todo_rank_issue_highest.handler
     events:
       - http:
-          path: TODO_1101_on_todo_rank_issue_highest
+          path: on_todo_rank_issue_highest
           method: POST
 
 #    The following are a few example events you can configure
