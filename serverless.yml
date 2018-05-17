@@ -1,5 +1,12 @@
 service: jira-webhooks
 
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
 provider:
   name: aws
   runtime: python2.7
@@ -9,9 +16,11 @@ provider:
 #  stage: dev
 #  region: us-east-1
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+  environment:
+    JIRA_URL: ${ssm:JIRA_URL}
+    JIRA_USER: ${ssm:JIRA_USER}
+    JIRA_PASS: ${ssm:JIRA_PASS~true}
+    JIRA_JQL_FOR_TOP_ISSUE: ${ssm:JIRA_JQL_FOR_TOP_ISSUE}
 
 # you can add packaging information here
 #package:
@@ -29,6 +38,13 @@ functions:
       - http:
           path: hello
           method: get
+
+  TODO_1101_on_todo_rank_issue_highest:
+    handler: TODO_1101_on_todo_rank_issue_highest.handler
+    events:
+      - http:
+          path: TODO_1101_on_todo_rank_issue_highest
+          method: POST
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
