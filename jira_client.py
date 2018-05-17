@@ -6,5 +6,8 @@ jira = JIRA(
     basic_auth = (
         os.environ['JIRA_USER'],
         os.environ['JIRA_PASS']
-    )
+    ),
+    options = {
+        'agile_rest_path': 'agile' # https://git.io/vpAIu
+    }
 )
