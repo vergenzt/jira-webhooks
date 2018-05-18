@@ -33,14 +33,14 @@ provider:
 
 functions:
   hello:
-    handler: hello.handler
+    handler: webhooks.hello.handler
     events:
       - http:
           path: hello
           method: get
 
   on_todo_rank_issue_highest:
-    handler: on_todo_rank_issue_highest.handler
+    handler: webhooks.on_todo_rank_issue_highest.handler
     events:
       - http:
           path: on_todo_rank_issue_highest
