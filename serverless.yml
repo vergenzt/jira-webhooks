@@ -1,43 +1,39 @@
 service: jira-webhooks
 
-plugins:
-  - serverless-python-requirements
-
-custom:
-  pythonRequirements:
-    dockerizePip: true
-
 provider:
   name: aws
-  runtime: python2.7
+  runtime: go1.x
   region: us-west-2
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
 
   environment:
     JIRA_URL: ${ssm:JIRA_URL}
-    JIRA_USER: ${ssm:JIRA_USER}
-    JIRA_PASS: ${ssm:JIRA_PASS~true}
-    JIRA_JQL_FOR_TOP_ISSUE: ${ssm:JIRA_JQL_FOR_TOP_ISSUE}
+    JIRA_USERNAME: ${ssm:JIRA_USERNAME}
+    JIRA_PASSWORD: ${ssm:JIRA_PASSWORD~true}
+    JIRA_BOARD_ID: ${ssm:JIRA_BOARD_ID}
 
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.py
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.py
-#    - exclude-me-dir/**
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
 
 functions:
-  rank_issue_highest_on_todo:
-    handler: webhooks.rank_issue_highest.on_todo
+  rank_issue_highest:
+    handler: bin/webhooks/rank_issue_highest
     events:
       - http:
-          path: rank_issue_highest_on_todo
+          path: rank_issue_highest
           method: POST
+          integration: lambda
+          template:
+            application/json: '{"body": "$input.json(''$'')"}'
+
+#  auto_up_next:
+#    handler: bin/webhooks/auto_up_next
+#    events:
+#      - http:
+#          path: auto_up_next
+#          method: POST
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
