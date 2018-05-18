@@ -1,15 +1,14 @@
 {
   "name": "jira-webhooks",
   "version": "1.0.0",
-  "description": "[package.json only here for serverless plugins]",
+  "description": "",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vergenzt/jira-webhooks.git"
   },
   "author": "Tim Vergenz <vergenzt@gmail.com>",
   "homepage": "https://github.com/vergenzt/jira-webhooks",
-  "devDependencies": {
-    "serverless": "^1.27.2",
-    "serverless-python-requirements": "^4.0.3"
+  "dependencies": {
+    "axios": "^0.18.0"
   }
 }

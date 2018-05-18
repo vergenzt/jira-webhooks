@@ -1,42 +1,22 @@
 service: jira-webhooks
 
-plugins:
-  - serverless-python-requirements
-
-custom:
-  pythonRequirements:
-    dockerizePip: true
-
 provider:
   name: aws
-  runtime: python2.7
+  runtime: nodejs8.10
   region: us-west-2
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
 
   environment:
     JIRA_URL: ${ssm:JIRA_URL}
-    JIRA_USER: ${ssm:JIRA_USER}
-    JIRA_PASS: ${ssm:JIRA_PASS~true}
-    JIRA_JQL_FOR_TOP_ISSUE: ${ssm:JIRA_JQL_FOR_TOP_ISSUE}
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.py
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.py
-#    - exclude-me-dir/**
+    JIRA_USERNAME: ${ssm:JIRA_USERNAME}
+    JIRA_PASSWORD: ${ssm:JIRA_PASSWORD~true}
+    JIRA_BOARD_ID: ${ssm:JIRA_BOARD_ID}
 
 functions:
-  rank_issue_highest_on_todo:
-    handler: webhooks.rank_issue_highest.on_todo
+  rank_issue_highest:
+    handler: src/webhooks/rank-issue-highest.onTodo
     events:
       - http:
-          path: rank_issue_highest_on_todo
+          path: rank_issue_highest
           method: POST
 
 #    The following are a few example events you can configure
