@@ -32,13 +32,6 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: webhooks.hello.handler
-    events:
-      - http:
-          path: hello
-          method: get
-
   rank_issue_highest_on_todo:
     handler: webhooks.rank_issue_highest.on_todo
     events:
