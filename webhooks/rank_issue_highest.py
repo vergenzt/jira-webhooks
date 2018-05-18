@@ -4,7 +4,7 @@ from jira_client import jira
 
 JQL_FOR_TOP_ISSUE = os.environ['JIRA_JQL_FOR_TOP_ISSUE']
 
-def handler(event, context):
+def on_todo(event, context):
     """
     1. Let top = highest-ranked issue from epic in "To Do".
     2. Rank trigger issue higher than top.

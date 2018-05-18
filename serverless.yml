@@ -39,11 +39,11 @@ functions:
           path: hello
           method: get
 
-  on_todo_rank_issue_highest:
-    handler: webhooks.on_todo_rank_issue_highest.handler
+  rank_issue_highest_on_todo:
+    handler: webhooks.rank_issue_highest.on_todo
     events:
       - http:
-          path: on_todo_rank_issue_highest
+          path: rank_issue_highest_on_todo
           method: POST
 
 #    The following are a few example events you can configure
