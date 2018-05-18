@@ -39,6 +39,13 @@ functions:
           path: rank_issue_highest_on_todo
           method: POST
 
+  auto_up_next_on_done:
+    handler: webhooks.auto_up_next.on_done
+    events:
+      - http:
+          path: auto_up_next_on_done
+          method: POST
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
