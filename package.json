@@ -2,6 +2,9 @@
   "name": "jira-webhooks",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "node": "node -r dotenv/config"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vergenzt/jira-webhooks.git"
@@ -10,5 +13,8 @@
   "homepage": "https://github.com/vergenzt/jira-webhooks",
   "dependencies": {
     "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "dotenv": "^5.0.1"
   }
 }
