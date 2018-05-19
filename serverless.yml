@@ -15,9 +15,12 @@ functions:
   rank_issue_highest:
     handler: src/webhooks/rank-issue-highest.onTodo
     events:
-      - http:
-          path: rank_issue_highest
-          method: POST
+      - http: POST rank_issue_highest
+
+  auto_up_next:
+    handler: src/webhooks/auto-up-next.onDone
+    events:
+      - http: POST auto_up_next
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
