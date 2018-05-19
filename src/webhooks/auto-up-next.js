@@ -1,6 +1,7 @@
 var {baseClient, agileClient} = require('../jira-client');
 
 var BOARD_ID = process.env.JIRA_BOARD_ID;
+var AUTO_UP_NEXT_MARKER = process.env.JIRA_AUTO_UP_NEXT_MARKER || '^';
 
 module.exports.onDone = async (event) => {
   var {issue: {key: triggerIssueKey}} = JSON.parse(event.body);
@@ -10,7 +11,12 @@ module.exports.onDone = async (event) => {
   // get the trigger issue's epic and available transitions
   var {
     data: {
-      fields: { epic: {id: epicId} },
+      fields: {
+        epic: {
+          id: epicId,
+          name: epicName
+        }
+      },
       transitions
     }
   } = await agileClient.get(`/issue/${triggerIssueKey}`, {
@@ -22,7 +28,13 @@ module.exports.onDone = async (event) => {
   var {id: upNextTransitionId} = transitions.find(({to: {name}}) => name === 'Up Next');
 
   console.log(`Epic ID: ${epicId}`);
+  console.log(`Epic Name: ${epicName}`);
   console.log(`Transition ID: ${upNextTransitionId}`);
+
+  if (!epicName.startsWith(AUTO_UP_NEXT_MARKER)) {
+    console.log(`Epic name does not start with '${AUTO_UP_NEXT_MARKER}'. Doing nothing.`);
+    return;
+  }
 
   var [
     { data: { issues: upNextIssues }},
@@ -40,12 +52,15 @@ module.exports.onDone = async (event) => {
   );
 
   console.log(`Any issues up next? ${(upNextIssues || []).length > 0}`);
-  console
+
+  if ((upNextIssues || []).length > 0) {
+    console.log(`Issues are in up next. Doing nothing.`);
+    return;
+  }
+
   console.log(`Next issue in backlog: ${upNextInBacklogIssueKey}`);
 
-  if ((upNextIssues || []).length === 0) {
-    await baseClient.post(`/issue/${upNextInBacklogIssueKey}/transitions`, {
-      transition: { id: upNextTransitionId }
-    });
-  }
+  await baseClient.post(`/issue/${upNextInBacklogIssueKey}/transitions`, {
+    transition: { id: upNextTransitionId }
+  });
 }
