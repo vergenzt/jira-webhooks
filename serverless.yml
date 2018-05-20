@@ -22,6 +22,11 @@ functions:
     events:
       - http: POST auto_up_next
 
+  sort_up_next_by_epic:
+    handler: src/webhooks/sort-up-next-by-epic.handler
+    events:
+      - http: POST sort_up_next_by_epic
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

@@ -12,7 +12,8 @@
   "author": "Tim Vergenz <vergenzt@gmail.com>",
   "homepage": "https://github.com/vergenzt/jira-webhooks",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "dotenv": "^5.0.1"

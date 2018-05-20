@@ -3,6 +3,7 @@ var {baseClient, agileClient} = require('../jira-client');
 var BOARD_ID = process.env.JIRA_BOARD_ID;
 var AUTO_UP_NEXT_MARKER = process.env.JIRA_AUTO_UP_NEXT_MARKER || '^';
 
+// TODO: extract API calls into jira-client
 module.exports.onDone = async (event) => {
   var {issue: {key: triggerIssueKey}} = JSON.parse(event.body);
 
