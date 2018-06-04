@@ -4,7 +4,7 @@ var _ = require('lodash');
 module.exports.handler = async () => {
   var [allEpicIds, allIssues] = await Promise.all([
     jira.getEpicIdsByRank(),
-    jira.getIssues({ jql: `status = "Up Next"` })
+    jira.getIssues({ jql: `status in ("Up Next", "In Progress")` })
   ]);
 
   var issuesByEpicId = _.groupBy(allIssues, 'fields.epic.id');
