@@ -13,6 +13,7 @@
   "homepage": "https://github.com/vergenzt/jira-webhooks",
   "dependencies": {
     "axios": "^0.18.0",
+    "bluebird": "^3.5.1",
     "lodash": "^4.17.10"
   },
   "devDependencies": {

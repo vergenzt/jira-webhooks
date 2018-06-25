@@ -1,4 +1,6 @@
 var axios = require('axios');
+var Promise = require('bluebird');
+var _ = require('lodash');
 
 var baseConfig = {
   auth: {
@@ -19,19 +21,25 @@ var agileClient = axios.create({
 
 var BOARD_ID = process.env.JIRA_BOARD_ID;
 
-module.exports = {
+const jira = module.exports = {
   baseClient,
   agileClient,
 
-  getEpicIdsByRank: async () => await (
-    agileClient
-      .get(`/board/${BOARD_ID}/epic`, { params: { done: false } })
-      .then(({ data: { values: epicsByRank } }) => epicsByRank.map(({id}) => id))
+  getPriorities: async () => await (
+    baseClient
+      .get(`/priority`)
+      .then(({ data: priorities }) => priorities)
   ),
 
-  getIssues: async ({jql}) => await (
+  getEpics: async () => await (
     agileClient
-      .get(`/board/${BOARD_ID}/issue`, { params: { jql } })
+      .get(`/board/${BOARD_ID}/epic`, { params: { done: false } })
+      .then(({ data: { values: epics } }) => epics)
+  ),
+
+  getIssues: async ({jql, ...other}) => await (
+    agileClient
+      .get(`/board/${BOARD_ID}/issue`, { params: { jql, ...other } })
       .then(({data: { issues }}) => issues)
   ),
 
@@ -42,4 +50,17 @@ module.exports = {
       rankAfterIssue,
     })
   ),
+
+  orderIssues: async (orderedIssues) => {
+    const [firstIssue, ...rest] = _.map(orderedIssues, 'key');
+
+    const initialValue = firstIssue;
+    const array = _.chunk(rest, 50);
+    const reducer = async (lastSortedIssue, nextChunk) => {
+      await jira.rankIssues(nextChunk, { rankAfterIssue: lastSortedIssue });
+      return _.last(nextChunk);
+    };
+
+    return Promise.reduce(array, reducer, initialValue);
+  }
 };
