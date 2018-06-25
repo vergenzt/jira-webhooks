@@ -27,6 +27,7 @@ functions:
     events:
       - http: POST sort_up_next
       - http: POST sort_up_next_by_epic # backcompat
+      - schedule: cron(5 12 * * ? *)
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
