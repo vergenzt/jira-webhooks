@@ -25,7 +25,11 @@ module.exports.handler = async () => {
   );
 
   const sortedIssues = _.sortBy(issues, [
+    // highest priority first
+    issue => issuePriorityRank(issue) === 0 ? 0 : 1,
+    // then by epic
     issueEpicRank,
+    // then by priority within epic
     issuePriorityRank,
   ]);
 
