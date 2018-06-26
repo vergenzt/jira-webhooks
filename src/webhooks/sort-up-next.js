@@ -5,7 +5,7 @@ module.exports.handler = async () => {
   const [epics, priorities, issues] = await Promise.all([
     jira.getEpics(),
     jira.getPriorities(),
-    jira.getIssues({ jql: `status in ("Up Next", "To Do", "In Progress")`, maxResults: 500 }),
+    jira.getIssues({ jql: `status in ("Up Next", "In Progress")`, maxResults: 500 }),
   ]);
 
   console.log(`# epics: ${epics.length}`);
