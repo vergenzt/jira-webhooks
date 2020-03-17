@@ -21,3 +21,13 @@ functions:
     handler: src/functions/updateIssueRanksForSort.handleDirect
     events:
       - schedule: cron(5 12 * * ? *)
+
+  validateEscalations:
+    handler: src/functions/escalations.validateHandler
+    events:
+      - http: POST validateEscalations
+
+  dailyCheckEscalations:
+    handler: src/functions/escalations.dailyCheckEscalationsHandler
+    events:
+      - schedule: cron(0 8 * * ? *) # 4am Eastern
