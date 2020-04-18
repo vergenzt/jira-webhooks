@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "node": "node --experimental-repl-await -r dotenv/config"
+    "node": "node --experimental-repl-await -r dotenv/config",
+    "deploy": "./node_modules/.bin/sls deploy --stage ${SLS_STAGE:-dev}"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
     "lodash": "*"
   },
   "devDependencies": {
-    "dotenv": "^5.0.1"
+    "serverless": "*",
+    "dotenv": "*"
   }
 }

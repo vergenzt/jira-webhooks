@@ -1,0 +1,22 @@
+name: Deploy
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - run: npm install
+     - name: Set env to prod
+       if: github.ref == 'refs/heads/master'
+       run: |
+         echo "::set-env name=SLS_STAGE::prod"
+     - name: Set env to branch name
+       if: github.ref != 'refs/heads/master'
+       run: |
+         echo "::set-env name=SLS_STAGE::${GITHUB_REF##*/}"
+     - name: Deploy to aws
+       env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       run: npm run deploy
