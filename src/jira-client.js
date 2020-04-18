@@ -10,7 +10,7 @@ var baseConfig = {
 }
 
 var baseClient = axios.create({
-  baseURL: process.env.JIRA_URL + '/rest/api/2',
+  baseURL: process.env.JIRA_URL + '/rest/api/3',
   ...baseConfig
 });
 
@@ -19,27 +19,13 @@ var agileClient = axios.create({
   ...baseConfig
 });
 
-var BOARD_ID = process.env.JIRA_BOARD_ID;
-
 const jira = module.exports = {
   baseClient,
   agileClient,
 
-  getPriorities: async () => await (
-    baseClient
-      .get(`/priority`)
-      .then(({ data: priorities }) => priorities)
-  ),
-
-  getEpics: async () => await (
-    agileClient
-      .get(`/board/${BOARD_ID}/epic`, { params: { done: false } })
-      .then(({ data: { values: epics } }) => epics)
-  ),
-
   getIssues: async ({jql, ...other}) => await (
-    agileClient
-      .get(`/board/${BOARD_ID}/issue`, { params: { jql, ...other } })
+    baseClient
+      .get(`/search`, { params: { jql, ...other } })
       .then(({data: { issues }}) => issues)
   ),
 

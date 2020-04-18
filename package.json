@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "node": "node -r dotenv/config"
+    "node": "node --experimental-repl-await -r dotenv/config"
   },
   "repository": {
     "type": "git",

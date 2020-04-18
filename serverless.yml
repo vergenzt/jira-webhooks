@@ -2,29 +2,17 @@ service: jira-webhooks
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   region: us-west-2
 
   environment:
     JIRA_URL: ${ssm:JIRA_URL}
     JIRA_USERNAME: ${ssm:JIRA_USERNAME}
     JIRA_PASSWORD: ${ssm:JIRA_PASSWORD~true}
-    JIRA_BOARD_ID: ${ssm:JIRA_BOARD_ID}
 
 functions:
-  rank_issue_highest:
-    handler: src/webhooks/rank-issue-highest.onTodo
+  sort-by-importance:
+    handler: src/functions/sort-by-importance.handler
     events:
-      - http: POST rank_issue_highest
-
-  auto_up_next:
-    handler: src/webhooks/auto-up-next.onDone
-    events:
-      - http: POST auto_up_next
-
-  sort_up_next:
-    handler: src/webhooks/sort-up-next.handler
-    events:
-      - http: POST sort_up_next
-      - http: POST sort_up_next_by_epic # backcompat
+      - http: POST sort-by-importance
       - schedule: cron(5 12 * * ? *)
