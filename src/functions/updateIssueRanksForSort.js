@@ -9,7 +9,7 @@ module.exports.handleViaWebhook = async ({ body: rawBody }) => {
     .on('error', _error => error = _error);
 
   const { webhookEvent, issue, changelog } = JSON.parse(rawBody);
-  const changedFields = (changelog || []).map(({field}) => field);
+  const changedFields = (changelog && changelog.items || []).map(({field}) => field);
   if (
     webhookEvent === 'jira:issue_created'
     || changedFields.includes('Rank')
