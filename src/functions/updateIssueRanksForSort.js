@@ -6,7 +6,9 @@ module.exports.handleViaWebhook = async ({ body: rawBody }) => {
   let error, numIssuesUpdated = 0;
   const eventEmitter = new EventEmitter()
     .on('issuesRanked', n => numIssuesUpdated += n)
-    .on('error', _error => error = _error);
+    .on('issuesRanked', n => console.log(`Ranked ${n} issues.`))
+    .on('error', _error => error = _error)
+    .on('error', console.error);
 
   const { webhookEvent, issue, changelog } = JSON.parse(rawBody);
   const changedFields = (changelog && changelog.items || []).map(({field}) => field);
