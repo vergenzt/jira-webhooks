@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const jira = require('../jira-client');
+const jira = require('../jiraClient');
 const { getPatch } = require('fast-array-diff');
 
 module.exports.handleViaWebhook = async ({ body: rawBody }) => {
