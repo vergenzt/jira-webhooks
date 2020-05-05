@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "*",
     "bluebird": "*",
+    "fast-array-diff": "^0.2.0",
     "lodash": "*"
   },
   "devDependencies": {

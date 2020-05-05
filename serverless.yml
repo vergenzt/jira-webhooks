@@ -9,10 +9,15 @@ provider:
     JIRA_URL: ${ssm:JIRA_URL}
     JIRA_USERNAME: ${ssm:JIRA_USERNAME}
     JIRA_PASSWORD: ${ssm:JIRA_PASSWORD~true}
+    JIRA_BASE_JQL: project = TODO and statusCategory != Done
+    JIRA_SORT_FIELDS: Importance, Rank
 
 functions:
-  sort-by-importance:
-    handler: src/functions/sort-by-importance.handler
+  updateIssueRanksForSortViaWebhook:
+    handler: src/functions/updateIssueRanksForSort.handleViaWebhook
     events:
-      - http: POST sort-by-importance
+      - http: POST update-issue-ranks-for-sort
+  updateIssueRanksForSortDirect:
+    handler: src/functions/updateIssueRanksForSort.handleDirect
+    events:
       - schedule: cron(5 12 * * ? *)
