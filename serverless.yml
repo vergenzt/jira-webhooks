@@ -9,7 +9,7 @@ provider:
     JIRA_URL: ${ssm:JIRA_URL}
     JIRA_USERNAME: ${ssm:JIRA_USERNAME}
     JIRA_PASSWORD: ${ssm:JIRA_PASSWORD~true}
-    JIRA_BASE_JQL: project = TODO and statusCategory != Done
+    JIRA_BASE_JQL: filter = "TODO visible"
     JIRA_SORT_FIELDS: Importance, Rank
 
 functions:
