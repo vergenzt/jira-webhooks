@@ -1,3 +1,4 @@
+const EventEmitter = require('events');
 var axios = require('axios');
 var Promise = require('bluebird');
 var _ = require('lodash');
@@ -22,6 +23,37 @@ var agileClient = axios.create({
 const jira = module.exports = {
   baseClient,
   agileClient,
+
+  createHandleWebhookFn: (handler, watchedFields) =>  async ({ body: rawBody }) => {
+    let error, numIssuesUpdated = 0;
+    const eventEmitter = new EventEmitter()
+      .on('issuesUpdated', n => numIssuesUpdated += n)
+      .on('issuesUpdated', n => console.log(`Updated ${n} issues.`))
+      .on('error', _error => error = _error)
+      .on('error', console.error);
+
+    const requestBody = JSON.parse(rawBody);
+    const changedFields = _.map(_.get(requestBody, 'changelog.items'), 'field');
+    if (_.intersection(changedFields, watchedFields).length > 0) {
+      try {
+        await handler(eventEmitter);
+      } catch (e) {
+        eventEmitter.emit('error', e);
+      }
+    }
+
+    const statusCode = 200; // always return success, even if we errored. we don't want Jira to retry.
+    const responseBody = [error, `Updated ${numIssuesUpdated} issues.`].filter(el => el).join('. ');
+    return { statusCode, responseBody };
+  },
+
+  createHandleDirectFn: (handler) => async () => {
+    await handler(
+      new EventEmitter()
+        .on('issuesUpdated', n => console.log(`Updated ${n} issues.`))
+        .on('error', e => { throw e; })
+    );
+  },
 
   getIssues: async ({jql, ...other}) => await (
     baseClient
