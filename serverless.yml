@@ -16,7 +16,7 @@ functions:
   updateIssueRanksForSortViaWebhook:
     handler: src/functions/updateIssueRanksForSort.handleViaWebhook
     events:
-      - http: POST update-issue-ranks-for-sort
+      - http: POST updateIssueRanksForSort
   updateIssueRanksForSortDirect:
     handler: src/functions/updateIssueRanksForSort.handleDirect
     events:
