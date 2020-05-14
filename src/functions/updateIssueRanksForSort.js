@@ -4,7 +4,7 @@ const { getPatch } = require('fast-array-diff');
 const updateIssueRanksForSort = async (eventEmitter) => {
   const currentOrderFieldString = 'rank';
   const targetOrderFieldString = process.env.JIRA_SORT_FIELDS;
-   const baseJql = process.env.JIRA_BASE_JQL;
+  const baseJql = process.env.JIRA_BASE_JQL;
 
   try {
     const [
