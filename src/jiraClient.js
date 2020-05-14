@@ -61,14 +61,14 @@ const jira = module.exports = {
       .then(({data: { issues }}) => issues)
   ),
 
-  rankIssues: async (issuesToRank, {rankBeforeIssue, rankAfterIssue}) => await (
+  rankIssues: async (issuesToRank, {rankBeforeIssue, rankAfterIssue}) => {
     console.log(`Ranking issues: ${arguments}`);
-    agileClient.put('/issue/rank', {
+    return await agileClient.put('/issue/rank', {
       issues: issuesToRank,
       rankBeforeIssue,
       rankAfterIssue,
-    })
-  ),
+    });
+  },
 
   orderIssues: async (orderedIssues) => {
     const [firstIssue, ...rest] = _.map(orderedIssues, 'key');
