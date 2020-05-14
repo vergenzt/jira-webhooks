@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "node": "node --experimental-repl-await -r dotenv/config",
-    "deploy": "./node_modules/.bin/sls deploy --stage ${SLS_STAGE:-dev}"
+    "deploy": "npx sls deploy --stage ${SLS_STAGE:-dev}"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
   "dependencies": {
     "axios": "*",
     "bluebird": "*",
-    "fast-array-diff": "^0.2.0",
+    "fast-array-diff": "*",
     "lodash": "*"
   },
   "devDependencies": {
