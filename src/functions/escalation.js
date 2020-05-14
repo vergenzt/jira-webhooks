@@ -5,14 +5,34 @@ const getEscalationTermRegex = (importances) => new Regex(
   '\s*'
   + '(?<num>[-+]?\d+)'
   + '\s*'
-  + '(?<unit>y(ears?)?|m(onths?)?|w(eeks?)?|d(ays?)?)'
-  + '(\s+from (?<baseline>due|start|created)( date)?\s+)?'
+  + '('
+    + '(?<unitYear>y(ears?)?)|'
+    + '(?<unitMonth>m(onths?)?)|'
+    + '(?<unitWeek>w(eeks?)?)|'
+    + '(?<unitDay>d(ays?)?)'
+  + ')'
+  + '(\s+(from|after) (?<baseline>due|start|created)( date)?\s+)?'
   + '('
     + '(\s*(?<importanceAbbr>⏬|🟢|🟡|🔶|🔺)\s*,?)'
     + '|(\s+(?<importanceAbbr>lowest|low|medium|high|highest))\s*(,|\s+|$)'
   + ')'
   , 'iug'
 )
+
+const parseEscalations = (escalationString) => {
+  for (let match in escalationString.matchAll(escalationTermRegex)) {
+    if (match.index != nextIndex) {
+      throw new Error(`Could not parse escalation starting at index ${nextIndex}`)
+    }
+    nextIndex += match.length
+
+    let date, importance;
+    let {num, unit, baseline, importanceAbbr} = match;
+    if (baseline) {
+      date = dates[baseline] + parse
+    }
+  }
+}
 
 async function *parseEscalations(issueKey, importanceFieldName, escalationFieldName) {
   const {data: {
@@ -40,18 +60,6 @@ async function *parseEscalations(issueKey, importanceFieldName, escalationFieldN
   const escalationTermRegex = getEscalationTermRegex(importances);
 
   let nextIndex = 0;
-  for (let match in escalationString.matchAll(escalationTermRegex)) {
-    if (match.index != nextIndex) {
-      throw new Error(`Could not parse escalation starting at index ${nextIndex}`)
-    }
-    nextIndex += match.length
-
-    let date, importance;
-    let {num, unit, baseline, importanceAbbr} = match;
-    if (baseline) {
-      date = dates[baseline] + parse
-    }
-  }
 }
 
 function validateHandler() {
