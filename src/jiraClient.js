@@ -62,6 +62,7 @@ const jira = module.exports = {
   ),
 
   rankIssues: async (issuesToRank, {rankBeforeIssue, rankAfterIssue}) => await (
+    console.log(`Ranking issues: ${arguments}`);
     agileClient.put('/issue/rank', {
       issues: issuesToRank,
       rankBeforeIssue,
