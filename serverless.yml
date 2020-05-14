@@ -15,6 +15,7 @@ provider:
 functions:
   updateIssueRanksForSortViaWebhook:
     handler: src/functions/updateIssueRanksForSort.handleViaWebhook
+    reservedConcurrency: 1
     events:
       - http: POST updateIssueRanksForSort
   updateIssueRanksForSortDirect:
