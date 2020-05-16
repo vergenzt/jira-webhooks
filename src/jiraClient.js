@@ -26,7 +26,7 @@ const jira = module.exports = {
 
   createHandleWebhookFn: (handler, watchedFields) =>  async ({ body: rawBody }) => {
     let error, numIssuesUpdated = 0;
-    const eventEmitter = new EventEmitter()
+    const eventEmitter = newi EventEmitter()
       .on('issuesUpdated', n => numIssuesUpdated += n)
       .on('issuesUpdated', n => console.log(`Updated ${n} issues.`))
       .on('error', _error => error = _error)
@@ -62,7 +62,7 @@ const jira = module.exports = {
   ),
 
   rankIssues: async (issuesToRank, {rankBeforeIssue, rankAfterIssue}) => {
-    console.log(`Ranking issues: ${JSON.stringify(arguments)}`);
+    console.log(`Ranking issues: ${JSON.stringify([issuesToRank, {rankBeforeIssue, rankAfterIssue}])}`);
     return await agileClient.put('/issue/rank', {
       issues: issuesToRank,
       rankBeforeIssue,
