@@ -22,3 +22,8 @@ functions:
     handler: src/functions/updateIssueRanksForSort.handleDirect
     events:
       - schedule: cron(5 12 * * ? *)
+
+  handleIssueRecurrence:
+    handler: src/functions/recurrence.handleTransitionWebhook
+    events:
+      - http: POST handleRecurrence

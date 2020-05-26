@@ -34,9 +34,9 @@ const jira = module.exports = {
 
     const requestBody = JSON.parse(rawBody);
     const changedFields = _.map(_.get(requestBody, 'changelog.items'), 'field');
-    if (_.intersection(changedFields, watchedFields).length > 0) {
+    if (watchedFields.length == 0 || _.intersection(changedFields, watchedFields).length > 0) {
       try {
-        await handler(eventEmitter);
+        await handler(eventEmitter, requestBody);
       } catch (e) {
         eventEmitter.emit('error', e);
       }
@@ -59,6 +59,29 @@ const jira = module.exports = {
     baseClient
       .get(`/search`, { params: { jql, ...other } })
       .then(({data: { issues }}) => issues)
+  ),
+
+  // https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-issueIdOrKey-put
+  updateIssue: async (issueKey, args) => await (
+    baseClient
+      .put(`/issue/${issueKey}`, args)
+  ),
+
+  addComment: async (issueKey, commentText) => await (
+    baseClient
+      .post(`/issue/${issueKey}/comment`, {
+        body: {
+          type: 'doc',
+          version: 1,
+          content: [{
+            type: 'paragraph',
+            content: [{
+              type: 'text',
+              text: commentText
+            }]
+          }]
+        }
+      })
   ),
 
   rankIssues: async (issuesToRank, {rankBeforeIssue, rankAfterIssue}) => await (

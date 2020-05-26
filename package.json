@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "node": "node --experimental-repl-await -r dotenv/config",
-    "deploy": "npx sls deploy --stage ${SLS_STAGE:-dev}"
+    "deploy": "npx sls deploy --stage ${SLS_STAGE:-dev}",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -16,10 +17,12 @@
     "axios": "*",
     "bluebird": "*",
     "fast-array-diff": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "moment": "*"
   },
   "devDependencies": {
-    "serverless": "*",
-    "dotenv": "*"
+    "dotenv": "*",
+    "jest": "^26.0.1",
+    "serverless": "*"
   }
 }
