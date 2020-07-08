@@ -15,10 +15,11 @@ provider:
 functions:
   updateIssueRanksForSortViaWebhook:
     handler: src/functions/updateIssueRanksForSort.handleViaWebhook
-    reservedConcurrency: 1
+    reservedConcurrency: 0
     events:
       - http: POST updateIssueRanksForSort
   updateIssueRanksForSortDirect:
     handler: src/functions/updateIssueRanksForSort.handleDirect
+    reservedConcurrency: 0
     events:
       - schedule: cron(5 12 * * ? *)
