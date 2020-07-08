@@ -12,14 +12,13 @@ provider:
     JIRA_BASE_JQL: filter = "TODO visible"
     JIRA_SORT_FIELDS: Importance, Rank
 
-functions:
-  updateIssueRanksForSortViaWebhook:
-    handler: src/functions/updateIssueRanksForSort.handleViaWebhook
-    reservedConcurrency: 0
-    events:
-      - http: POST updateIssueRanksForSort
-  updateIssueRanksForSortDirect:
-    handler: src/functions/updateIssueRanksForSort.handleDirect
-    reservedConcurrency: 0
-    events:
-      - schedule: cron(5 12 * * ? *)
+#functions:
+#  updateIssueRanksForSortViaWebhook:
+#    handler: src/functions/updateIssueRanksForSort.handleViaWebhook
+#    reservedConcurrency: 1
+#    events:
+#      - http: POST updateIssueRanksForSort
+#  updateIssueRanksForSortDirect:
+#    handler: src/functions/updateIssueRanksForSort.handleDirect
+#    events:
+#      - schedule: cron(5 12 * * ? *)
